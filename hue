@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+# hue - A script to tint your screen/s with a variety of colors using xrandr, xgamma, and fzf..
+# Uses fzf to select from a list of pre-defined colors..
+# Easily toggle between different tints or reset your screen back to normal..
+
+# Dependencies: xrandr, xgamma, fzf
+
+# Usage: Run the script and use fzf to choose your desired screen tint..
+
+
+# Colors and their respective gamma settings
+declare -A COLORS
+COLORS=(
+    ["Barbie Pink"]="1.4:0.6:0.8"
+    ["Lipstick Pink"]="1.2:0.7:0.8"
+    ["Pastal Pink Drk"]="1.5:0.8:0.8"
+    ["Dark Redd"]="1.1:0.3:0.3"
+    ["LightRed"]="1.3:0.5:0.5"
+    ["Samantha"]="1.3:1:0.7"
+    ["Arc Dark"]="0.5:0.5:0.6"
+    ["Dark Purple"]="0.6:0.6:0.8"
+    ["Peach"]="1.3:0.6:0.7"
+    ["Skin"]="1.6:0.9:0.8"
+    ["Orange"]="1.4:0.5:0.4"
+    ["Gameboy"]="0.6:0.8:0.2"
+    ["8bit"]="0.8:0.8:0.8"
+)
+
+# Path to the status file
+STATUS_FILE=~/.color_tint_status
+
+# Function to apply the selected color tint
+apply_color_tint() {
+    local gamma=$1
+    for display in $(xrandr | grep ' connected' | cut -d ' ' -f1); do
+        xrandr --output $display --gamma $gamma
+    done
+}
+
+# Function to revert the screen color settings to normal
+revert_color() {
+    for display in $(xrandr | grep ' connected' | cut -d ' ' -f1); do
+        xrandr --output $display --gamma 1:1:1
+    done
+}
+
+# List of color options for fzf
+OPTIONS=$(printf "%s\n" "${!COLORS[@]}" "Reset to Normal")
+
+# Use fzf to select a color option
+SELECTED_OPTION=$(echo "$OPTIONS" | fzf --height 80% --border --ansi --prompt="Select a color tint: ")
+
+# Apply the selected color tint or reset
+if [[ "$SELECTED_OPTION" == "Reset to Normal" ]]; then
+    revert_color
+    rm -f "$STATUS_FILE"
+else
+    apply_color_tint "${COLORS[$SELECTED_OPTION]}"
+    echo "$SELECTED_OPTION" > "$STATUS_FILE"
+fi
