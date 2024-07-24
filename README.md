@@ -10,26 +10,28 @@ A script to tint your screen with a variety of colors using `xrandr`, `xgamma`, 
 
 ## Dependencies
 
-- `xrandr`
-- `xgamma`
-- `fzf`
+```
+xrandr
+xgamma
+fzf
+```
 
 ## Installation
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/yourusername/hue.git
+    git clone https://github.com/furycd001/hue.git
     cd hue
     ```
 
 2. **Make the Script Executable**:
     ```bash
-    chmod +x hue.sh
+    chmod +x hue
     ```
 
 3. **Move the Script to a Directory in Your PATH**:
     ```bash
-    mv hue.sh ~/.local/bin/hue
+    mv hue ~/.local/bin/
     ```
 
 ## Usage
@@ -57,16 +59,3 @@ A script to tint your screen with a variety of colors using `xrandr`, `xgamma`, 
 - **Orange**: `#EE7A63`
 - **Gameboy**: `#9bbc0f`
 - **8bit**: `#b9bbb6`
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contributing
-
-Feel free to fork the project, make changes, and submit pull requests. Contributions are welcome!
-
-## Acknowledgements
-
-- Inspired by the need to reduce eye strain with fun and customizable screen tints.
-- Uses `xrandr`, `xgamma`, and `fzf` for efficient and user-friendly functionality.
