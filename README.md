@@ -34,7 +34,7 @@ fzf
     mv hue.sh ~/.local/bin/hue
     ```
 
-    **Warning**: Ensure `~/.local/bin` is in your `PATH`. If not, add the following line to your `~/.bashrc` or `~/.zshrc` and reload the shell:
+    **Please ensure `~/.local/bin` is in your `PATH`. If not, add the following line to your `~/.bashrc` or `~/.zshrc` and reload the shell:**
     ```bash
     export PATH=$PATH:~/.local/bin
     ```
