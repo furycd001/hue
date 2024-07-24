@@ -2,6 +2,8 @@
 
 A script to tint your screen with a variety of colors using `xrandr`, `xgamma`, and `fzf`.
 
+![alt text](hue.jpg "hue girl")
+
 ## Features
 
 - Select from a list of pre-defined colors, including Barbie Pink, Gameboy Green, and more.
