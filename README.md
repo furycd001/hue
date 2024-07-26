@@ -2,7 +2,7 @@
 
 A script to tint your screen with a variety of colors using `xrandr`, `xgamma`, and `fzf`.
 
-![alt text](hue.jpg "hue girl")
+![alt text](hue.png "hue girl")
 
 ## Features
 
