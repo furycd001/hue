@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+# hue - A script to tint your screen/s with a variety of colors using xrandr and xgamma.
+# This version presents a numbered list of options to choose from.
+
+# Dependencies: xrandr, xgamma
+
+# Colors and their respective gamma settings
+declare -A COLORS
+COLORS=(
+  ["8bit"]="0.8:0.8:0.8"
+  ["Barbie Pink"]="1.4:0.6:0.8"
+  ["Dark Redd"]="1.1:0.3:0.3"
+  ["Dark Purple"]="0.6:0.6:0.8"
+  ["Gameboy"]="0.6:0.8:0.2"
+  ["Lipstick Pink"]="1.2:0.7:0.8"
+  ["LightRed"]="1.3:0.5:0.5"
+  ["Night"]="0.5:0.5:0.6"
+  ["Orange"]="1.4:0.5:0.4"
+  ["Pastal Pink Dark"]="1.5:0.8:0.8"
+  ["Peach"]="1.3:0.6:0.7"
+  ["Samantha"]="1.3:1:0.7"
+  ["Skin"]="1.6:0.9:0.8"
+)
+
+# Path to the status file
+STATUS_FILE=~/.color_tint_status
+
+# Function to apply the selected color tint
+apply_color_tint() {
+  local gamma=$1
+  for display in $(xrandr | grep ' connected' | cut -d ' ' -f1); do
+    xrandr --output $display --gamma $gamma
+  done
+}
+
+# Function to revert the screen color settings to normal
+revert_color() {
+  for display in $(xrandr | grep ' connected' | cut -d ' ' -f1); do
+    xrandr --output $display --gamma 1:1:1
+  done
+}
+
+# Present options to the user
+echo "Please select a color tint:"
+echo "-----------------------------------"
+echo "[0] Reset to Normal"
+i=1
+options=()
+for color in "${!COLORS[@]}"; do
+  echo "[$i] $color"
+  options+=("$color")
+  ((i++))
+done
+echo "-----------------------------------"
+
+# Read the user's selection
+read -p "Enter the number of your choice: " choice
+
+# Handle the user's choice
+if [[ "$choice" == "0" ]]; then
+  revert_color
+  rm -f "$STATUS_FILE"
+elif [[ "$choice" -gt 0 && "$choice" -le ${#options[@]} ]]; then
+  selected_color="${options[$((choice-1))]}"
+  apply_color_tint "${COLORS[$selected_color]}"
+  echo "$selected_color" >"$STATUS_FILE"
+else
+  echo "Invalid selection"
+  exit 1
+fi
